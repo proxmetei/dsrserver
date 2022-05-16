@@ -18,7 +18,7 @@ const Animal = sequelize.define('animals',{
   const Document = sequelize.define('document',{
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     guid: {type: DataTypes.TEXT('long'), unique:true},
-    data: {type: DataTypes.BLOB('long')},
+    data: {type: DataTypes.TEXT('long')},
     name: {type: DataTypes.TEXT('medium')}
   })
   User.hasMany(Animal);
