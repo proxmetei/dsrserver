@@ -1,4 +1,4 @@
-const {User,Animal,Document} = require('../models/models');
+const {User,Animal,Document, Doctor} = require('../models/models');
 const ApiError = require('../error/ApiError');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
@@ -13,6 +13,30 @@ const generateJwt = (id, login, role) => {
     )
 }
 class UserController{
+    async getAllUsers(req,res,next){
+        const users = await User.findAll({where: {role: "USER"}});
+        for(let user of users){
+        const animals = await Animal.findAll({where: {userId: user.id}});
+        let animals1 = [];
+         for(let elem of animals){
+            const document = await Document.findOne({where: {animalId: elem.id}});
+            elem.dataValues.document=document;
+        }
+        user.dataValues.animals= animals;
+        }
+        // console.log(users);
+        return res.json({users});
+    }
+    async addDoctor(req,res,next){
+        const {fio, phone, experience, achivments, types} = req.body;
+        console.log(fio)
+        let createdDoctor = await Doctor.create({fio, phone, experience, achivments, types});
+        return res.json({createdDoctor});
+    }
+    async getDocs(req,res,next){
+        let docs = await Doctor.findAll();
+        return res.json({docs});
+    }
     async registration(req, res, next){
          const {user, animals} = req.body;
          const {email,login, phone, name, password} = user;
@@ -85,6 +109,12 @@ class UserController{
         return res.json({token})
     }
     async check(req, res, next){
+        let candidate = await User.findOne({where: {role: "ADMIN"}});
+        console.log(candidate);
+        if(!candidate){
+          const hashPassword = await bcrypt.hash('admin', 5);
+       await User.create({id:0, name:"", login:"admin", phone:"", email:"",password:hashPassword, role: "ADMIN"})
+        }
         const token = generateJwt(req.user.id, req.user.login, req.user.role);
         return res.json({token});
     }

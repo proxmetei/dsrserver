@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const animalRoutes = require('./routes/animal');
+const adminRoutes = require('./routes/admin');
 const app = express();
 const errorHandler = require('./middleware/ErrorHandlingMiddleware');
 const fileUpload = require('express-fileupload');
@@ -22,4 +23,5 @@ app.use(errorHandler);
 
 app.use('/api/user', authRoutes);
 app.use('/api/animal', animalRoutes);
+app.use('/api/admin', adminRoutes);
 module.exports = app;

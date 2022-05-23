@@ -7,4 +7,5 @@ const router = express.Router();
  router.get('/auth',authMiddleware, userController.check);
  router.post('/info', userController.userInfo);
  router.post('/edit', userController.edit);
+ router.get('/docs',authMiddleware, userController.getDocs);
 module.exports = router;

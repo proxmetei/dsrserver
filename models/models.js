@@ -1,5 +1,6 @@
 const sequelize = require('../db');
 const {DataTypes} = require('sequelize');
+const bcrypt = require('bcrypt');
 const User = sequelize.define('users',{
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement:true},
   email: {type: DataTypes.TEXT('medium'), unique:true},
@@ -21,12 +22,22 @@ const Animal = sequelize.define('animals',{
     data: {type: DataTypes.TEXT('long')},
     name: {type: DataTypes.TEXT('medium')}
   })
+  const Doctor = sequelize.define('doctors',{
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    fio: {type: DataTypes.TEXT('medium')},
+    phone: {type: DataTypes.TEXT('medium')},
+    experience: {type: DataTypes.TEXT('medium')},
+    achivments: {type: DataTypes.TEXT('medium')},
+    types: {type: DataTypes.TEXT('medium')},
+  })
   User.hasMany(Animal);
   Animal.hasOne(Document);
   Document.belongsTo(Animal);
   Animal.belongsTo(User);
+  
   module.exports = {
     User,
     Animal,
-    Document
+    Document,
+    Doctor
   }
