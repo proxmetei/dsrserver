@@ -8,4 +8,5 @@ const router = express.Router();
  router.post('/info', userController.userInfo);
  router.post('/edit', userController.edit);
  router.get('/docs',authMiddleware, userController.getDocs);
+ router.post('/setsession',authMiddleware, userController.setSession);
 module.exports = router;

@@ -14,7 +14,6 @@ const generateJwt = (id, login, role) => {
 }
 class AnimalController{
 async edit(req, res, next){
-    console.log(1);
     const {animal} = req.body;
     const {id, kind, breed, name, document, userId}= animal;
     const {data, name: doc_name, id: Docid} = document;
@@ -24,11 +23,8 @@ async edit(req, res, next){
     }
     const createdAnimal = await Animal.update({ kind, breed, name,userId: userId},  { where: { id: id } });
     let guidd = uuid.v4()+"";
-  console.log(Docid);
     let doc = await Document.findOne({where: {id: Docid}});
-    console.log(doc);
     if(!doc){
-        console.log(1);
     const createdDocument = await Document.create({guid ,data: data,doc_name: doc_name, animalId: id});
     }
     else{

@@ -22,6 +22,10 @@ const Animal = sequelize.define('animals',{
     data: {type: DataTypes.TEXT('long')},
     name: {type: DataTypes.TEXT('medium')}
   })
+  const Session = sequelize.define('sessions',{
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    date: {type: DataTypes.TEXT('long')},
+  })
   const Doctor = sequelize.define('doctors',{
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     fio: {type: DataTypes.TEXT('medium')},
@@ -34,10 +38,12 @@ const Animal = sequelize.define('animals',{
   Animal.hasOne(Document);
   Document.belongsTo(Animal);
   Animal.belongsTo(User);
-  
+  Session.belongsTo(Animal);
+  Session.belongsTo(Doctor);
   module.exports = {
     User,
     Animal,
     Document,
-    Doctor
+    Doctor, 
+    Session
   }
